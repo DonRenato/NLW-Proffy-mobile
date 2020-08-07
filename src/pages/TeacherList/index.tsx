@@ -8,6 +8,7 @@ import { Feather } from '@expo/vector-icons';
 
 import styles from './styles';
 import api from '../../assets/api';
+import { useFocusEffect } from '@react-navigation/native';
 
 function TeacherList(){
     const [isFiltersVisible, setIsFiltersVisible] = useState(false);
@@ -28,6 +29,10 @@ function TeacherList(){
             }
         })
     }
+
+    useFocusEffect(()=>{
+        loadFAvorites();
+    })
 
     async function handleFiltersSubmit(){
         loadFAvorites();
