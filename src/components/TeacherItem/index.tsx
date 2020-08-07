@@ -1,44 +1,59 @@
 import React from 'react';
-import { View , Image, Text } from 'react-native';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler'
-
+import { View , Image, Text, Linking } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler'
 import heartOutLineIcon from '../../assets/images/icons/heart-outline.png';
 import unfavoriteIcon from '../../assets/images/icons/unfavorite.png';
 import whatsAppIcon from '../../assets/images/icons/whatsapp.png';
 import styles from './styles';
 
+export interface Teacher{
+    id: number;
+    avatar: string;
+    bio: string;
+    cost: string;
+    name: string;
+    subject: string;
+    whatsapp: string
+}
 
-function TeacherItem(){
+interface TeacherItemProps{
+    teacher: Teacher;
+}
+
+
+const TeacherItem:React.FC<TeacherItemProps> = ({ teacher }) =>{
+    function handleLinkToWhatssApp(){
+        Linking.openURL(`whatsapp://send?phone=${teacher.whatsapp}`)
+    };
+
     return(
         <View  style={styles.container}>
             <View style={styles.profile}>
                 <Image 
-                    source={{uri: 'https://avatars1.githubusercontent.com/u/54222065?s=460&u=5ae1658ec82b97642873d026c4ead83e82aa378a&v=4'}} 
+                    source={{uri: teacher.avatar }} 
                     style={styles.avatar}
                 />
 
                 <View style={styles.profileInfo}>
                     <Text style={styles.name}>
-                        Seo Dartinho
+                        {teacher.name}
                     </Text>
 
                     <Text style={styles.subject}>
-                        Religião
+                        {teacher.subject}
                     </Text>
                 </View>
             </View>
            
             <Text style={styles.bio}>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                    {'\n'} {'\n'}
-                    Vero, non dolore corporis modi debitis quas, ipsa totam et consectetur aut nulla cumque libero saepe odio provident laudantium iste laboriosam eos.
+                    {teacher.bio}
             </Text>
 
             <View style={styles.footer}>
                 <Text style={styles.price}>
                     Preço/hora: {'  '}
                     <Text style={styles.priceValue}>
-                       R$ 80,00
+                       R$ {teacher.cost},00
                     </Text>
                 </Text>
 
@@ -48,7 +63,10 @@ function TeacherItem(){
                     <Image source={unfavoriteIcon} />
                     </RectButton>
 
-                    <RectButton style={styles.contactButton}>
+                    <RectButton 
+                        onPress={handleLinkToWhatssApp}
+                        style={styles.contactButton}    
+                    >
                         <Image source={whatsAppIcon} />
                             <Text style={styles.contactButtonText}>
                                 Entrar em contato
